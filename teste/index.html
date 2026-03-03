@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste Dois</title>
+    <style>
+      body {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #pai {
+        width: 20rem;
+        height: 20rem;
+        background-color: green;
+        border-radius: 7px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="pai">
+      <button id="filho">Clique em mim!</button>
+    </div>
+
+    <script>
+      const pai = document.getElementById("pai");
+      const filho = document.getElementById("filho");
+      console.log(pai);
+      pai.addEventListener("click", function (event) {
+        event.stopPropagation();
+        if (event.target.matches("#filho")) {
+          console.log("cliquei no botão");
+        }
+      });
+    </script>
+  </body>
+</html>
