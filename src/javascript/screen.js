@@ -1,4 +1,5 @@
 import { switchHeat } from "../javascript/functions.js";
+import { formattedWeather } from "../javascript/API.js";
 // const containerTemperatureDay = document.getElementById(
 //   "container-temperature-day",
 // );
@@ -98,9 +99,19 @@ $heatMetric.forEach((element) => {
   });
 });
 
-const boxChoiceDays = document.getElementById("box-choice-days");
+const boxChoiceDays = document.querySelector(".box-choice-days");
 boxChoiceDays.addEventListener("click", function (event) {
   const days = event.target.matches("days");
   console.log(days);
   days[0].classList.remove("day-active");
 });
+
+const $city = document.getElementById("city");
+const $country = document.getElementById("country");
+const $day = document.getElementById("day");
+const $month = document.getElementById("month");
+const $numberDay = document.getElementById("number-day");
+const $year = document.getElementById("year");
+
+const weather = await formattedWeather("Porto Alegre");
+console.log(JSON.stringify(weather));

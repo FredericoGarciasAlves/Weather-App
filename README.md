@@ -1,103 +1,112 @@
-# Frontend Mentor - Weather app
+# Frontend Mentor - Weather app solution
 
-![Design preview for the Weather app coding challenge](./preview.jpg)
+## Objetivo
 
-## Welcome! 👋
+Completar o projeto.
 
-Thanks for checking out this coding challenge.
+## Planejamento
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects.
+1. Carregando a página carrega os dados de temperatura com os dados de API.
+2. Caso ocorra um erro ao carregar a API a seção principal some e aparece uma mensagem descrevendo o problema.
+3. Fazer a busca no campo de entrada mostra a barra “search in progress” abaixo da campo de busca junto com um icone, após carregar a caixa abaixo, mostra as quatro cidades encontradas.
+4. Após clicar na cidade carregar as caixas que entrarão os dados das temperaturas, a caixa “left content” carrega “icone” de loading, e limpa a maioria das outras caixas ou fica um traço.
+5. Caso ocorra um erro na pesquisa no motor de busca aparece uma mensagem “No search results found!”
+6. Clicando na caixa units abrir a caixa switch to imperial
+7. Após clicar em alguma das opções disponíveis que não estão selecionadas , mudar para imperial caso metric esteja selecionada ou para metric caso imperial esteja selecionada.
+8. Na caixa hourly forecast carrega as ordens dos dias são dispostos apartir do dia que foi aberto o site
+9. Selecionando os dias muda os dados temperaturas e os icones mostrados para o dia selecionado corresponde.
+10. Site deve ser responsivo e conter todos os estados de hover e focus.
 
-**To do this challenge, you need a good understanding of HTML, CSS, and JavaScript.**
+## Algoritimos
 
-## The challenge
+1. Carregando a página carrega os dados de temperatura com os dados de API.
+   1. Todos os dados de temperatura e icones devem ser atualizados quando carregar a página para a data e horario atual referente na localização de Berlin Germany.
+      1. Pegar a API meteo com uma função assíncrona ✅
+         1. A API open meteo precisa de longitude e latitude: ✅
+            1. Usar uma API que busque a longitude e latitude de localização mundial. ✅
+         2. A API open meteo precisa buscar a temperatura com horario local do cliente ✅
+      2. Tratar a API: ✅
+         1. O objeto **hourlyWeatherVariable**: ✅
+            1. objeto **weatherCode** deve conter os elementos do caminho das chaves _hourly.weather_code_ da API open meteo. ✅
+               1. O objeto **weatherCode** deve conter os arrays com 7 elementos, dentro em cada um desses 7 elementos contendo separados por ordem da API 24 caminhos dos icones referênte ao código, apontando para dentro das pastas que contém os icones. ✅
+            2. O objeto **temperature** deve conter os elementos do caminho das chaves _hourly.temperature_2m_ da API open meteo: ✅
+               1. O objeto **temperature** deve conter o array filtrado da API ordináriamente contendo 7 elementos, dentro de cada um desses elementos deve conter 24 temperaturas formatadas em 2 casas de números. ✅
+         2. O objeto **dailyWeatherVariables**:
+            1. O objeto **weatherCode** deve conter os elementos do caminho _daily.weather_code_ do retorno da API Open meteo.✅
+               1. O objeto **weatherCode** deve conter sete elementos, dentro de cada um desses elementos conter o caminho apontando para as pasta que contém o icone referênte ao código da API Open meteo. ✅
+            2. O objeto **temperatureMean** deve conter os sete elementos do caminho do retorno da API Open meteo _daily.temperature_2m_mean_: ✅
+               1. O objeto **temperatureMean** deve conter os seus elementos formantados para exibir somente duas casas decimais de temperatura. ✅
+            3. O objeto **date** deve conter os elementos do caminho _daily.time_ da API Open meteo: ✅
+            4. O objeto **location** deve conter dois objeto dentro: ✅
+               1. O objeto **city** deve conter o caminho do retorno da API Geocoding open meteo _results[0].name . ✅_
+               2. O objeto **country** deve conter o caminho do retorno da API Geocoding open meteo _results[0.country_ . ✅
+            5. O objeto **dayMeanDetails** deve conter 4 objetos: ✅
+               1. O objeto **apparentTemperatureMean** contendo o caminho _daily.apparent_temperature_mean_ da API open meteo. ✅
+                  1. O objeto **apparentTemperatureMean** deve conter os dados em formato de duas casas decimais. ✅
+               2. O objeto **relativeHumidity** deve conter o caminho _daily.relative_humidity_2m_mean_ da API open meteo. ✅
+               3. O objeto **windSpeed** deve conter o caminho da API open meteo _daily.wind_speed_10m_mean . ✅_
+                  1. O objeto **windSpeed** deve conter os seu dados formatos em duas casas decimais. ✅
+               4. O objeto **preciptationMean** deve conter o caminho _daily.precipitation_probability_mean_ da API Open meteo. ✅
+            6. O objeto **dailyForecast** deve conter dois objetos dentro: ✅
+               1. O objeto **temperatureMax** deve conter o caminho _daily.temperature_2m_max_ da API Open meteo. ✅
+                  1. Os dados devem ser formatados em duas casas decimais.✅
+               2. O objeto **temperatureMin** deve conter o caminho _daily.temperature_2m_min_ da API Open meteo. ✅
+                  1. Os dados devem ser formatados em duas casas decimais. ✅
+      3. Preecher o DOM com os dados correspondente a cada caixa ao carregar a página conforme está o prototypo no Figma.
+         1. Todos os as caixas que exibim dados de dia deve ser usado o dia atual na abertura da página.
+         2. A caixa “container-temperature-day” deve ser exibido o horario atual do dia no carremento da página
+         3. Ordenar as caixas com a classe days e a caixa container-daily-forecast para o dia correspondendo ao dia atual a sua ordem.
+2. Caso ocorra um erro ao carregar a API a seção principal some e aparece uma mensagem descrevendo o problema.
+   1. A mensagem deve aparecer caso a API open meteo ou a API geocoding open meteo retornarem um erro acima de 400 e abaixo de 599, no caso ao carregar a página ou ao fazer a pesquisa
+   2. Botão “retry”
+      1. Caso não houver uma pesquisa, recarregar a página com a localização de Berlin, Germany
+      2. Caso ouver feito a pesquisa no campo de busca, carregar a página, com a entrada que o cliente digitou no campo de busca
+3. Fazer a busca no campo de entrada mostra a barra “search in progress” abaixo da campo de busca junto com um icone, após carregar a caixa abaixo, mostra as quatro cidades encontradas.
+   1. As quatro cidades são carregadas na API geocoding open meteo.
 
-Build a weather app using the [Open-Meteo API](https://open-meteo.com/) and get it looking as close to the design as possible.
+## Estrutura do Projeto
 
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
+## Decisões Técnicas
 
-Your users should be able to:
+A primeira abordagem usei métodos de add e remove por conta de não estár familiarizado com o método toggle, prefiri nessa primeira modelagem usar os métodos add e remove por serem mais faceis de gerar e a refatoração é no mesmo caminho que usar o método toggle
 
-- Search for weather information by entering a location in the search bar
-- View current weather conditions including temperature, weather icon, and location details
-- See additional weather metrics like "feels like" temperature, humidity percentage, wind speed, and precipitation amounts
-- Browse a 7-day weather forecast with daily high/low temperatures and weather icons
-- View an hourly forecast showing temperature changes throughout the day
-- Switch between different days of the week using the day selector in the hourly forecast section
-- Toggle between Imperial and Metric measurement units via the units dropdown
-- View the optimal layout for the interface depending on their device's screen size
-- See hover and focus states for all interactive elements on the page
+O laços de repetição foram usados por conta de serem métodos simples para uma primeira abordagem
 
-## Getting started
+## Dificuldades
 
-### What's included
+Nessa primeira abordagem tive problemas de desenvolver em uma velocidade boa, por conta de desenvolver em espaços de tempos longos procurei um desenvolvimento mais rápido do que um raciocínio lógico e performance do software de boa qualidade.
 
-Your task is to build out the project to the designs inside the `/design` folder. You will find both a mobile and a desktop version of the design.
+## Soluções
 
-**In your download:**
-- Mobile and desktop designs (JPG format)
-- All required assets in the `/assets` folder
-- Variable and static font files (or link to Google Fonts)
-- `style-guide.md` with colors, fonts, and other design specs
+Usei bastante tentativa e erro no processo, alguma e outra pesquisa no chatGPT quando o resultado do que eu tinha certeza não correspondia as espectivas
 
-**Want more accurate builds?** The designs are in JPG static format, which means you'll need to use your best judgment for styles such as `font-size`, `padding`, and `margin`. If you'd like the Figma design file to help build a more accurate solution faster, you can [subscribe as a PRO member](https://www.frontendmentor.io/pro).
+## Melhorias Futuras
 
-### API setup
+Refatoração, usar o método toggle para as trocas das classes na box de quais são as medidas de temperatura e encontrar algum método ou raciocínio que não use processamento de loop nos checkmarks
 
-This project uses the [Open-Meteo API](https://open-meteo.com/) to fetch weather data.
+Na primeira no primeiro elemento do ALGORITIMO eu escrevi uma hora de traz prqa frente e outra hora de frente para trás “API open meteo” e o caminho. Quando eu for escrever para um projeto que usa meteodologias ageis eu escreverei mais ou menos nesse estilo e para metologias mais lentas eu escreverei mais padronizada a linguagem, o motivo é que uma deixa mais em movimento e ativo enquanto a outra demostra mais rigidez e repetitiva. A primeira seria mais para ler e ficar no ritimo enquanto a outra seria mais pra fixar a ideia.
 
-**Good news:** Open-Meteo is completely free and doesn't require an API key! You can start making requests right away.
+## Project Status
 
-- **API Documentation:** [https://open-meteo.com/en/docs](https://open-meteo.com/en/docs)
-- **No rate limits** for reasonable personal use
-- Example endpoint: `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true`
+Projeto em desenvolvimeto
 
-Check their documentation for all available weather parameters and location search capabilities.
+### Progress
 
-## Building your project
+- Progresso na finalização do tratamento dos dados da API, está faltando detalhes.
+- Ajuste nos IDs HTML
+- Ajuste na documentação sobre como devem ser dispostos as chaves e valores da API formatada.
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+Ajustes no ID HTML / mexer na documentação e ajustar a formatação da API novamente /
 
-1. Initialize your project as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/).
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+### Current Features
 
-**Need help?** [Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+- Screen estática
 
-## Deploying your project
+### Problems / Challenges
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+- Desafio do tratamento dos dados da API, como fazer para cortar o zero nos primeiros 9 dias do mês que vem da API.
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+### Next Steps
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://medium.com/frontend-mentor/frontend-mentor-trusted-hosting-providers-bf000dfebe).
-
-## Submitting your solution
-
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://medium.com/frontend-mentor/a-complete-guide-to-submitting-solutions-on-frontend-mentor-ac6384162248) for tips on how to do this.
-
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
-
-**We strongly recommend overwriting this `README.md` with a custom one.** We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code. The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings.
-
-## Sharing your solution
-
-There are multiple places you can share your solution:
-
-1. Submit it on the platform and share your solution page in the **#finished-projects** channel of our [community](https://www.frontendmentor.io/community)
-2. Tweet [@frontendmentor](https://twitter.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in the tweet. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on other social channels like LinkedIn.
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
-
-## Got feedback for us?
-
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
-
-**This challenge is completely free. Please share it with anyone who will find it useful for practice.**
-
-**Have fun building!** 🚀
+- Atualizar a documentação para ficar correspondente ao que foi feito no projeto
+- Finalizar o tratamento dos dados da API

@@ -48,4 +48,6 @@ function switchHeat(heatMetric, heatImperial, checkmark, btnState) {
   }
 }
 
-export { switchHeat };
+
+
+export { switchHeat, };
