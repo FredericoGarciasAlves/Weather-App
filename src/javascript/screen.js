@@ -114,4 +114,3 @@ const $numberDay = document.getElementById("number-day");
 const $year = document.getElementById("year");
 
 const weather = await formattedWeather("Porto Alegre");
-console.log(JSON.stringify(weather));
