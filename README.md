@@ -1,5 +1,3 @@
-# Frontend Mentor - Weather app solution
-
 ## Objetivo
 
 Completar o projeto.
@@ -14,7 +12,7 @@ Completar o projeto.
 6. Clicando na caixa units abrir a caixa switch to imperial
 7. Após clicar em alguma das opções disponíveis que não estão selecionadas , mudar para imperial caso metric esteja selecionada ou para metric caso imperial esteja selecionada.
 8. Na caixa hourly forecast carrega as ordens dos dias são dispostos apartir do dia que foi aberto o site
-9. Selecionando os dias muda os dados temperaturas e os icones mostrados para o dia selecionado corresponde.
+9. Selecionando os dias muda os dados temperaturas e os icones) mostrados para o dia selecionado corresponde.
 10. Site deve ser responsivo e conter todos os estados de hover e focus.
 
 ## Algoritimos
@@ -37,6 +35,7 @@ Completar o projeto.
             2. O objeto **temperatureMean** deve conter os sete elementos do caminho do retorno da API Open meteo _daily.temperature_2m_mean_: ✅
                1. O objeto **temperatureMean** deve conter os seus elementos formantados para exibir somente duas casas decimais de temperatura. ✅
             3. O objeto **date** deve conter os elementos do caminho _daily.time_ da API Open meteo: ✅
+               1. O objeto **date** deve ser formatado para as datas de meses e dias que vierem em formato com zero na frente, deve ser removido o zero da primeira casa decimal. ✅
             4. O objeto **location** deve conter dois objeto dentro: ✅
                1. O objeto **city** deve conter o caminho do retorno da API Geocoding open meteo _results[0].name . ✅_
                2. O objeto **country** deve conter o caminho do retorno da API Geocoding open meteo _results[0.country_ . ✅
@@ -53,9 +52,9 @@ Completar o projeto.
                2. O objeto **temperatureMin** deve conter o caminho _daily.temperature_2m_min_ da API Open meteo. ✅
                   1. Os dados devem ser formatados em duas casas decimais. ✅
       3. Preecher o DOM com os dados correspondente a cada caixa ao carregar a página conforme está o prototypo no Figma.
-         1. Todos os as caixas que exibim dados de dia deve ser usado o dia atual na abertura da página.
-         2. A caixa “container-temperature-day” deve ser exibido o horario atual do dia no carremento da página
-         3. Ordenar as caixas com a classe days e a caixa container-daily-forecast para o dia correspondendo ao dia atual a sua ordem.
+         1. Ordenar as caixas com a classe days e a caixa container-daily-forecast para o dia correspondendo ao dia atual a sua ordem.
+         2. Todos os as caixas que exibim dados de dia deve ser usado o dia atual na abertura da página.
+         3. A caixa “container-temperature-day” deve ser exibido o horario atual do dia no carremento da página
 2. Caso ocorra um erro ao carregar a API a seção principal some e aparece uma mensagem descrevendo o problema.
    1. A mensagem deve aparecer caso a API open meteo ou a API geocoding open meteo retornarem um erro acima de 400 e abaixo de 599, no caso ao carregar a página ou ao fazer a pesquisa
    2. Botão “retry”
@@ -95,6 +94,12 @@ Projeto em desenvolvimeto
 - Progresso na finalização do tratamento dos dados da API, está faltando detalhes.
 - Ajuste nos IDs HTML
 - Ajuste na documentação sobre como devem ser dispostos as chaves e valores da API formatada.
+- Formatação da requisição da API para até o passo de coloca-la a carregar a página foi feita
+- Modulariação na separação das funções de tratamento da API e separação da requisição da API
+- Novas funções adicionanadas no arquivo function.js
+  - Funções referênte ao preencchimento dos dados do hero-content
+- finalizada o preencimento bruto de hero-content.
+- forão feitas uma ou duas modificações no HTML refer`^ente a IDs e estilos no CSS
 
 Ajustes no ID HTML / mexer na documentação e ajustar a formatação da API novamente /
 
@@ -108,5 +113,7 @@ Ajustes no ID HTML / mexer na documentação e ajustar a formatação da API nov
 
 ### Next Steps
 
-- Atualizar a documentação para ficar correspondente ao que foi feito no projeto
-- Finalizar o tratamento dos dados da API
+- Atualizar a documentação para ficar correspondente ao que foi feito no projeto. ✅
+- Finalizar o tratamento dos dados da API, para preenchimento no carregar a página ✅
+- Separar responsabilidades de tratamento da API e a requisição da API. ✅
+- Fazer a refatoração das variáveis que transformão os dados de dias para o preenchimento dos dias de hourly forecast e daily forecast.

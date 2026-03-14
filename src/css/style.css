@@ -209,11 +209,11 @@ body {
   align-items: center;
 }
 
-#icon-temperature-left-content {
+#icon-temperature-hero-content {
   width: 12rem;
 }
 
-#temperature {
+#temperature-now {
   font-size: 8rem;
   font-family: "DM sans italic";
 }

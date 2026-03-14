@@ -1,5 +1,12 @@
-import { switchHeat } from "../javascript/functions.js";
-import { formattedWeather } from "../javascript/API.js";
+import {
+  switchHeat,
+  atualizarOrdemDiaCaixaDays,
+  atualizarOrdemCaixaContainerDailyForecast,
+  atualizarOrdemMonthHeroContent,
+  heroContent,
+} from "../javascript/functions.js";
+import { formattedWeather } from "../javascript/services.js";
+
 // const containerTemperatureDay = document.getElementById(
 //   "container-temperature-day",
 // );
@@ -106,11 +113,25 @@ boxChoiceDays.addEventListener("click", function (event) {
   days[0].classList.remove("day-active");
 });
 
-const $city = document.getElementById("city");
-const $country = document.getElementById("country");
-const $day = document.getElementById("day");
-const $month = document.getElementById("month");
-const $numberDay = document.getElementById("number-day");
-const $year = document.getElementById("year");
-
 const weather = await formattedWeather("Porto Alegre");
+// console.log(JSON.stringify(weather));
+// const date = [
+//   ["2026", "3", "25"],
+//   ["2026", "3", "26"],
+//   ["2026", "3", "27"],
+//   ["2026", "3", "28"],
+//   ["2026", "3", "29"],
+//   ["2026", "3", "31"],
+//   ["2026", "4", "01"],
+// ];
+// console.log(atualizarOrdemMonthHeroContent(date));
+
+const hora = new Date().getHours();
+console.log(hora);
+heroContent(
+  weather,
+  atualizarOrdemDiaCaixaDays(weather.dailyWeatherVariables.date),
+  atualizarOrdemMonthHeroContent(weather.dailyWeatherVariables.date),
+  hora - 1,
+);
+// console.log(JSON.stringify(weather));
