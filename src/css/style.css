@@ -387,11 +387,9 @@ body {
   height: 100%;
   overflow-y: auto;
   padding-right: 8px;
-
   display: flex;
   flex-direction: column;
   row-gap: 1.6rem;
-
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--neutral-600) transparent;

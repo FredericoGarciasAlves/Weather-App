@@ -1,9 +1,13 @@
 import {
   switchHeat,
-  atualizarOrdemDiaCaixaDays,
+  gerarOrdem,
   atualizarOrdemCaixaContainerDailyForecast,
-  atualizarOrdemMonthHeroContent,
   heroContent,
+  dayAndDays,
+  preencherHourly,
+  preencherWeatherDetails,
+  temperatureDayliForecast,
+  scrollToCurrentHour,
 } from "../javascript/functions.js";
 import { formattedWeather } from "../javascript/services.js";
 
@@ -97,7 +101,6 @@ $btnState.addEventListener("click", () => {
 $heatImperial.forEach((element) => {
   element.addEventListener("click", () => {
     switchHeat($heatMetric, $heatImperial, $checkmark, $btnState);
-    console.log("disparando");
   });
 });
 $heatMetric.forEach((element) => {
@@ -109,7 +112,7 @@ $heatMetric.forEach((element) => {
 const boxChoiceDays = document.querySelector(".box-choice-days");
 boxChoiceDays.addEventListener("click", function (event) {
   const days = event.target.matches("days");
-  console.log(days);
+
   days[0].classList.remove("day-active");
 });
 
@@ -126,12 +129,66 @@ const weather = await formattedWeather("Porto Alegre");
 // ];
 // console.log(atualizarOrdemMonthHeroContent(date));
 
+const diasSemana = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const dias = gerarOrdem(
+  weather.dailyWeatherVariables.date,
+  diasSemana,
+  (data) => data.getDay(),
+);
+
+const meses = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const mesesResultado = gerarOrdem(
+  weather.dailyWeatherVariables.date,
+  meses,
+  (data) => data.getMonth(),
+);
+
+const dayDayliForecast = atualizarOrdemCaixaContainerDailyForecast(dias);
 const hora = new Date().getHours();
-console.log(hora);
-heroContent(
-  weather,
-  atualizarOrdemDiaCaixaDays(weather.dailyWeatherVariables.date),
-  atualizarOrdemMonthHeroContent(weather.dailyWeatherVariables.date),
-  hora - 1,
+
+heroContent(weather, dias, mesesResultado, hora - 1);
+dayAndDays(dias, dayDayliForecast);
+preencherHourly(
+  weather.hourlyWeatherVariable.temperature,
+  weather.hourlyWeatherVariable.weatherCode,
+);
+preencherWeatherDetails(
+  weather.dailyWeatherVariables.dayMeanDetails.apparentTemperatureMean,
+  weather.dailyWeatherVariables.dayMeanDetails.relativeHumidity,
+  weather.dailyWeatherVariables.dayMeanDetails.windSpeed,
+  weather.dailyWeatherVariables.dayMeanDetails.precipitationMean,
+  "km/h",
+  "mm",
+  0,
+);
+temperatureDayliForecast(
+  weather.dailyWeatherVariables.weatherCode,
+  weather.dailyWeatherVariables.dailyForecast.temperatureMax,
+  weather.dailyWeatherVariables.dailyForecast.temperatureMin,
 );
 // console.log(JSON.stringify(weather));
+
+setTimeout(scrollToCurrentHour, 100);
