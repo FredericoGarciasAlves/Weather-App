@@ -58,21 +58,29 @@
           </div>
         </div>
     </header>
-    <main id="main">
+    <main class="main" >
       <h1 class="main-title">How's the sky looking today?</h1>
       
       <div id="box-search">
         <div id="box-input-search">
-          <img src="../../assets/images/icon-search.svg" alt="Icon search" class="icon-search">
-          <input type="text" name="search" id="input-search" placeholder="Search for a place..." >
+          <div id="box-input">
+            <img src="../../assets/images/icon-search.svg" alt="Icon search" class="icon-search">
+            <input type="text" name="search" id="input-search" placeholder="Search for a place..." >
+          </div>
+          <button type="submit" id="btn-search">Search</button>
         </div>
-        <button type="submit" id="btn-search">Search</button>
+        <div id="box-city-name">
+          <!-- <button type="button" class="btn-location-name"><span id="city-name"></span></button>
+          <button type="button" class="btn-location-name">City Name</button>
+          <button type="button" class="btn-location-name">City Name</button>
+          <button type="button" class="btn-location-name">City Name</button>  -->
+        </div>
       </div>
       <section id="section-content">
         <div id="hero-content">
           <div id="weather-info">
             <p id="location-info">
-              <span id="city" class="location-info-span-large">Berlin, </span> <span id="country" class="location-info-span-large">Germany</span> <br>
+              <span id="city" class="location-info-span-large">Berlin, </span> <span id="province" class="location-info-span-large">State of Berlin, </span> <span id="country" class="location-info-span-large">Germany</span> <br>
               <span id="day" class="location-info-span">Tuesday, </span> <span id="month" class="location-info-span">Aug </span> <span id="number-day" class="location-info-span">5, </span> <span id="year" class="location-info-span">2025</span>
             </p>
           
@@ -362,6 +370,12 @@
         </div>
       </section>
     </main>
+    <section class="error-section error-section-desactived">
+      <img src="../../assets/images/icon-error.svg" alt="Icon error" id="icon-error">
+      <h2 id="error-title-message">Something went wrong</h2>
+      <p id="error-message">We couldn't connect to server (API error). Please try again in a few moments.</p>
+      <button type="button" id="btn-retry"><img src="../../assets/images/icon-retry.svg" alt="Icon retry">Retry</button>
+    </section>
     <script type="module" src="../javascript/screen.js"></script>
     <script type="module" src="../javascript/services.js"></script>
     <script type="module" src="../javascript/API.js"></script>

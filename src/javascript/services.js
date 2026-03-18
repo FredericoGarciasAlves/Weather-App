@@ -19,8 +19,9 @@ async function transformWeather(weather, coordinates) {
       ),
       date: formattedDate(weather.daily.time),
       location: {
-        city: coordinates.results[0].name,
-        country: coordinates.results[0].country,
+        city: processarLocalSeparado(coordinates.results).cidades[0],
+        province: processarLocalSeparado(coordinates.results).estados[0],
+        country: processarLocalSeparado(coordinates.results).paises[0],
       },
       dayMeanDetails: {
         apparentTemperatureMean: formattedTemperatureAndWind(
@@ -44,6 +45,48 @@ async function transformWeather(weather, coordinates) {
   };
   return formattedWeather;
 }
+
+async function transformCoordinates(coordinates) {
+  return {
+    city: processarLocalSeparado(coordinates.results).cidades,
+    province: processarLocalSeparado(coordinates.results).estados,
+    country: processarLocalSeparado(coordinates.results).paises,
+  };
+}
+
+function processarLocalSeparado(results) {
+  const cidades = [];
+  const estados = [];
+  const paises = [];
+
+  const seen = new Set();
+
+  results.forEach((e) => {
+    const city = e.name;
+    const state = e.admin1;
+    const country = e.country;
+
+    // regra: se cidade e estado forem iguais
+    const estadoFinal = state === city ? "" : state;
+
+    // chave única pra evitar duplicados
+    const chave = `${city}|${estadoFinal}|${country}`;
+
+    if (!seen.has(chave)) {
+      seen.add(chave);
+
+      cidades.push(city);
+      estados.push(estadoFinal);
+      paises.push(country);
+    }
+  });
+
+  return { cidades, estados, paises };
+}
+
+// function arrayCidades(arrayCitys, cityAndCountry) {
+//   return arrayCitys.map((e) => e[cityAndCountry]);
+// }
 
 function formattedHourlyWeatherVariableCode(weather) {
   const formattedWeatherCode = weather.reduce((acc, code, index) => {
@@ -164,16 +207,79 @@ function formattedDate(date) {
   });
   return arrayFormattedDate;
 }
-async function formattedWeather(city) {
-  const coordinates = await searchCoordinates(city);
-  const weather = await searchWeather(coordinates);
+const main = document.querySelector(".main");
+const errorSectionDesactived = document.querySelector(".error-section");
 
-  const data = await transformWeather(weather, coordinates);
-  return data;
+async function formattedWeather(city) {
+  try {
+    const coordinates = await searchCoordinates(city);
+    const weather = await searchWeather(coordinates);
+
+    const data = await transformWeather(weather, coordinates);
+
+    // Fazer verificação nessas manipulações de classes
+
+    // ✅ SUCESSO → ativa tela normal
+    main.classList.remove("main-desactived");
+    errorSectionDesactived.classList.add("error-section-desactived");
+
+    return data;
+  } catch (error) {
+    // ❌ ERRO → ativa tela de erro
+    main.classList.add("main-desactived");
+    errorSectionDesactived.classList.remove("error-section-desactived");
+
+    throw error;
+  }
 }
 
-// const weather = await formattedWeather("Porto Alegre");
+async function formattedCoordinates(city) {
+  try {
+    const coordinates = await searchCoordinates(city);
 
-// console.log(weather);
+    const data = await transformCoordinates(coordinates);
 
-export { formattedWeather };
+    // ✅ SUCESSO → ativa tela normal
+    main.classList.remove("main-desactived");
+    errorSectionDesactived.classList.add("error-section-desactived");
+
+    return data;
+  } catch (error) {
+    // ❌ ERRO → ativa tela de erro
+    main.classList.add("main-desactived");
+    errorSectionDesactived.classList.remove("error-section-desactived");
+
+    throw error;
+  }
+}
+// function formatarLocalArray(e) {
+//   const city = e.name;
+//   const state = e.admin1;
+//   const country = e.country;
+
+//   // Se tiver estado e for diferente da cidade
+//   if (state && state !== city) {
+//     return [city, state, country];
+//   }
+
+//   // Se não tiver ou for igual
+//   return [city, country];
+// }
+
+// function removerDuplicadosArray(arr) {
+//   return arr.filter((item, index, self) => {
+//     return (
+//       index ===
+//       self.findIndex((i) => JSON.stringify(i) === JSON.stringify(item))
+//     );
+//   });
+// }
+// function processarCidadesArray(results) {
+//   const formatado = results.map(formatarLocalArray);
+//   return removerDuplicadosArray(formatado);
+// }
+const weather = await formattedCoordinates("Berlin");
+
+console.log(weather);
+
+export { formattedWeather, formattedCoordinates };

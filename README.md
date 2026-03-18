@@ -1,3 +1,5 @@
+# Projeto
+
 ## Objetivo
 
 Completar o projeto.
@@ -37,8 +39,9 @@ Completar o projeto.
             3. O objeto **date** deve conter os elementos do caminho _daily.time_ da API Open meteo: ✅
                1. O objeto **date** deve ser formatado para as datas de meses e dias que vierem em formato com zero na frente, deve ser removido o zero da primeira casa decimal. ✅
             4. O objeto **location** deve conter dois objeto dentro: ✅
-               1. O objeto **city** deve conter o caminho do retorno da API Geocoding open meteo _results[0].name . ✅_
-               2. O objeto **country** deve conter o caminho do retorno da API Geocoding open meteo _results[0.country_ . ✅
+               1. O objeto **city** deve conter o caminho do retorno da API Geocoding open meteo _. ✅_
+               2. O objeto **province** deve conter o caminho do retorno da API Geocoding open meteo*. ✅*
+               3. O objeto **country** deve conter o caminho do retorno da API Geocoding open meteo. ✅
             5. O objeto **dayMeanDetails** deve conter 4 objetos: ✅
                1. O objeto **apparentTemperatureMean** contendo o caminho _daily.apparent_temperature_mean_ da API open meteo. ✅
                   1. O objeto **apparentTemperatureMean** deve conter os dados em formato de duas casas decimais. ✅
@@ -51,39 +54,28 @@ Completar o projeto.
                   1. Os dados devem ser formatados em duas casas decimais.✅
                2. O objeto **temperatureMin** deve conter o caminho _daily.temperature_2m_min_ da API Open meteo. ✅
                   1. Os dados devem ser formatados em duas casas decimais. ✅
-      3. Preecher o DOM com os dados correspondente a cada caixa ao carregar a página conforme está o prototypo no Figma.
-         1. Ordenar as caixas com a classe days e a caixa container-daily-forecast para o dia correspondendo ao dia atual a sua ordem.
-         2. Todos os as caixas que exibim dados de dia deve ser usado o dia atual na abertura da página.
-         3. A caixa “container-temperature-day” deve ser exibido o horario atual do dia no carremento da página
-2. Caso ocorra um erro ao carregar a API a seção principal some e aparece uma mensagem descrevendo o problema.
-   1. A mensagem deve aparecer caso a API open meteo ou a API geocoding open meteo retornarem um erro acima de 400 e abaixo de 599, no caso ao carregar a página ou ao fazer a pesquisa
-   2. Botão “retry”
-      1. Caso não houver uma pesquisa, recarregar a página com a localização de Berlin, Germany
-      2. Caso ouver feito a pesquisa no campo de busca, carregar a página, com a entrada que o cliente digitou no campo de busca
-3. Fazer a busca no campo de entrada mostra a barra “search in progress” abaixo da campo de busca junto com um icone, após carregar a caixa abaixo, mostra as quatro cidades encontradas.
-   1. As quatro cidades são carregadas na API geocoding open meteo.
+      3. Preecher o DOM com os dados correspondente a cada caixa ao carregar a página conforme está o prototypo no Figma. ✅
+         1. Ordenar as caixas com a classes days e day para o dia correspondendo ao dia atual a sua ordem. ✅
+         2. Todos os as caixas que exibim dados de dia deve ser usado o dia atual na abertura da página. ✅
+         3. A caixa “container-temperature-day” deve ser exibido o horario atual do dia no carremento da página ✅
+         4. Preencher a caixa “container-weather-details” ✅
+         5. Hero Content
+            1. Em caso de pesquisa existir dois resultado com a mesma cidade e o mesmo País, colocar o Estado após o nome da cidade.
+2. Erro na API.✅
+   1. Caso ocorra um erro ao carregar a API a seção principal some e aparece uma mensagem descrevendo o problema.✅
+      1. Fazer a estrutura no arquivo HTML em baixo da tag main. ✅
+      2. Fazer a estilização. ✅
+      3. O layout deve aparecer caso a API open meteo ou a API geocoding open meteo retornarem um erro acima de 400 e abaixo de 599, no caso ao carregar a página ou ao fazer a pesquisa.✅
+      4. Botão “retry”✅
+         1. Caso não houver uma pesquisa, recarregar a página com a localização de Berlin, Germany ✅
+         2. Caso ouver feito a pesquisa no campo de busca, carregar a página, com a entrada que o cliente digitou no campo de busca.✅
+3. Motor de busca.
+   1. Quando digitar no campo de busca aparecer as cidades que a API Geocoding meteo retorna como resultado da requisição. São 4 cidades que devem aparecer em baixo do campo de busca
+      1. Quando começar a digitar e estiver carregando a requisição da API Geocoding e ainda não tiver retorno, é para aparecer um campo abaixo com um icone e o campo com a mensagem “Search in progress”
+   2. Quando for clicado em algum desses campos, ou, for digitado enter quando o campo estiver preenchido com algum nome de cidade no campo de busca, mostrar a tela de carregamento, campos sáo modificados, fazer correspondente a screen “Loading state” do Figma.
+   3. Se o resultado não for encontrado aparecer a seção do FIGMA “No results”.
 
 ## Estrutura do Projeto
-
-## Decisões Técnicas
-
-A primeira abordagem usei métodos de add e remove por conta de não estár familiarizado com o método toggle, prefiri nessa primeira modelagem usar os métodos add e remove por serem mais faceis de gerar e a refatoração é no mesmo caminho que usar o método toggle
-
-O laços de repetição foram usados por conta de serem métodos simples para uma primeira abordagem
-
-## Dificuldades
-
-Nessa primeira abordagem tive problemas de desenvolver em uma velocidade boa, por conta de desenvolver em espaços de tempos longos procurei um desenvolvimento mais rápido do que um raciocínio lógico e performance do software de boa qualidade.
-
-## Soluções
-
-Usei bastante tentativa e erro no processo, alguma e outra pesquisa no chatGPT quando o resultado do que eu tinha certeza não correspondia as espectivas
-
-## Melhorias Futuras
-
-Refatoração, usar o método toggle para as trocas das classes na box de quais são as medidas de temperatura e encontrar algum método ou raciocínio que não use processamento de loop nos checkmarks
-
-Na primeira no primeiro elemento do ALGORITIMO eu escrevi uma hora de traz prqa frente e outra hora de frente para trás “API open meteo” e o caminho. Quando eu for escrever para um projeto que usa meteodologias ageis eu escreverei mais ou menos nesse estilo e para metologias mais lentas eu escreverei mais padronizada a linguagem, o motivo é que uma deixa mais em movimento e ativo enquanto a outra demostra mais rigidez e repetitiva. A primeira seria mais para ler e ficar no ritimo enquanto a outra seria mais pra fixar a ideia.
 
 ## Project Status
 
@@ -98,22 +90,44 @@ Projeto em desenvolvimeto
 - Modulariação na separação das funções de tratamento da API e separação da requisição da API
 - Novas funções adicionanadas no arquivo function.js
   - Funções referênte ao preencchimento dos dados do hero-content
-- finalizada o preencimento bruto de hero-content.
-- forão feitas uma ou duas modificações no HTML refer`^ente a IDs e estilos no CSS
+- Finalizada o preencimento bruto de hero-content.
+- Forão feitas uma ou duas modificações no HTML refer`^ente a IDs e estilos no CSS.
+- Finalizado parcialmente o tratamento de erro.
+- Motivo de eu estar colocando também os estados junto a pesquisa e ao resultado é que existe várias cidades ao redor do mundo com o mesmo nome
 
-Ajustes no ID HTML / mexer na documentação e ajustar a formatação da API novamente /
+### Finalizado ao carregar a página ser preenchido com os dados da API Open meteo.
+
+Ajustes no ID HTML / mexer na documentação e ajustar a formatação da API novamente.
 
 ### Current Features
 
-- Screen estática
+- Projeto estático.✅
+- Preenchimento da página ao carregar com os dados da API na localização de Berlin, Germany.✅
+- Tratamento de erro da API em caso de algo der errado.✅
+- Motor de busca.
 
 ### Problems / Challenges
 
 - Desafio do tratamento dos dados da API, como fazer para cortar o zero nos primeiros 9 dias do mês que vem da API.
+- Desafio de como fazer a caixa de hourly forecast aparecer o horario atual, até agora eu náo entendi como o código da scroll bar se coporta, o motivo, ainda não pesquisei qual o cóidigo que foi implementado.
+- Desafio de como tratar os erros status da API.
+- Desafio em como fazer aparecer e sumir a seção de erro.
 
 ### Next Steps
 
 - Atualizar a documentação para ficar correspondente ao que foi feito no projeto. ✅
 - Finalizar o tratamento dos dados da API, para preenchimento no carregar a página ✅
 - Separar responsabilidades de tratamento da API e a requisição da API. ✅
-- Fazer a refatoração das variáveis que transformão os dados de dias para o preenchimento dos dias de hourly forecast e daily forecast.
+- Fazer a refatoração das variáveis que transformão os dados de dias para o preenchimento dos dias de hourly forecast e daily forecast.✅
+- Atualizar o documento do preenchimento ao carregar da API✅
+- Bug ao carregar a página, mostrar a temperatura da hora atual na caixa “container-temperature-day”
+- Mecher na documentação sobre o tratamento da API referênte Estado.✅
+- Em caso de dois resultado com a mesma cidade e o mesmo País, colocar o Estado após o nome da cidade. ✅
+- GET http://127.0.0.1:5501/src/html/undefined 404 (Not Found), Erro esquisito que eu não sei aonde que aconteceu.
+- Resolver o tratamento de erro ao pesquisar na API Geocoding ou na Open meteo.
+
+# Motivos
+
+## Estado
+
+O motivo de eu adicionar o estado, ocorreu porque, em alguns lugarem temos cidades estado, por exemplo Berlin, Nesse caso ficaria dificil saber qual a cidade no motor de busca, e por questões saudozistas optei por colocar além do motor de busca, nos resultados da pesquisa. Imaginei o seguinte fator, se pesquisou em um site de temperatura global é mais uma questão de uma “estrelinha destacada no mar de possibilidades”, e pra uma cidade de onde eu venho bem antiga joga um ar de saudozismo.

@@ -121,11 +121,15 @@ body {
   align-items: center;
 }
 
-#main {
+.main {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 8rem;
+}
+
+.main-desactived {
+  display: none;
 }
 
 .main-title {
@@ -134,16 +138,51 @@ body {
 }
 
 #box-search {
-  display: flex;
-  column-gap: 1.6rem;
+  display: block;
+
   width: 65.5rem;
   margin-top: 6.4rem;
 }
 
 #box-input-search {
+  display: flex;
+  column-gap: 1.6rem;
+}
+
+#box-input {
   width: 52.5rem;
   height: 5.6rem;
   position: relative;
+}
+
+#box-city-name {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background-color: var(--neutral-800);
+  border: 1px solid var(--neutral-700);
+  width: 52.6rem;
+  border-radius: 1rem;
+}
+
+.btn-location-name {
+  width: 51rem;
+  height: 4rem;
+  background-color: var(--neutral-800);
+  border: none;
+  border-radius: 1rem;
+  text-align: left;
+  padding: 1rem 0.8rem;
+  font-size: 1.6rem;
+}
+
+.btn-location-name:hover,
+.btn-location-name:focus {
+  background-color: var(--neutral-700);
+  border: 1px solid var(--neutral-600);
+  outline: none;
 }
 
 .icon-search {
@@ -430,4 +469,51 @@ body {
 
 .temperature {
   font-size: 1.5rem;
+}
+
+/* Section error */
+
+.error-section {
+  margin-top: 10.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-section-desactived {
+  display: none;
+}
+
+#icon-error {
+  width: 4.2rem;
+  height: 5rem;
+}
+
+#error-title-message {
+  font-size: 5.5rem;
+  margin-top: 2.4rem;
+  font-weight: 550;
+}
+
+#error-message {
+  width: 55.4rem;
+  text-align: center;
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  margin-top: 2.4rem;
+  color: var(--neutral-200);
+}
+
+#btn-retry {
+  width: 10rem;
+  height: 4.3rem;
+  margin-top: 2.4rem;
+  border-radius: 1rem;
+  background: var(--neutral-800);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1rem;
+  font-size: 1.6rem;
 }

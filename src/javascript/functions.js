@@ -50,7 +50,6 @@ function switchHeat(heatMetric, heatImperial, checkmark, btnState) {
 
 function gerarOrdem(dateArray, labels, metodod) {
   let resultado = [];
-  console.log(typeof metodod);
 
   dateArray.forEach((d) => {
     const data = new Date(d[0], d[1] - 1, d[2]);
@@ -73,6 +72,7 @@ function atualizarOrdemCaixaContainerDailyForecast(arrayDate) {
 
 function heroContent(weather, dayString, monthString, indiceHora) {
   const $city = document.getElementById("city");
+  const $province = document.getElementById("province");
   const $country = document.getElementById("country");
   const $day = document.getElementById("day");
   const $month = document.getElementById("month");
@@ -82,6 +82,8 @@ function heroContent(weather, dayString, monthString, indiceHora) {
   const $temperatureNow = document.getElementById("temperature-now");
 
   $city.textContent = weather.dailyWeatherVariables.location.city + ", ";
+  $province.textContent =
+    weather.dailyWeatherVariables.location.province + ", ";
   $country.textContent = weather.dailyWeatherVariables.location.country;
   $day.textContent = dayString[0] + ", ";
   $month.textContent = monthString[0] + " ";
@@ -93,23 +95,23 @@ function heroContent(weather, dayString, monthString, indiceHora) {
   // $month.textContent =
 }
 
-function dayAndDays(arrayDays, arrayDayliForecast) {
-  const days = document.querySelectorAll(".days");
-  const dayDailyForecast = document.querySelectorAll(".day");
+function fillSortedWeek(arrayDays, arrayDayliForecast) {
+  const $daysBoxChoice = document.querySelectorAll(".days");
+  const $dayDailyForecast = document.querySelectorAll(".day");
 
-  const selectedDay = document.querySelector("#selected-day");
-  selectedDay.textContent = arrayDays[0];
+  const $selectedDay = document.querySelector("#selected-day");
+  $selectedDay.textContent = arrayDays[0];
 
-  days.forEach((elementDay, index) => {
+  $daysBoxChoice.forEach((elementDay, index) => {
     elementDay.textContent = arrayDays[index];
   });
 
-  dayDailyForecast.forEach((element, index) => {
+  $dayDailyForecast.forEach((element, index) => {
     element.textContent = arrayDayliForecast[index];
   });
 }
 
-function preencherHourly(arrayTemperature, arrayIconTemperature) {
+function fillHourly(arrayTemperature, arrayIconTemperature) {
   const temperature = document.querySelectorAll(".temperature");
   const iconTemperatureHourlyForecast = document.querySelectorAll(
     ".icon-temperature-hourly-forecast",
@@ -191,14 +193,92 @@ function scrollToCurrentHour() {
     }
   });
 }
+// function optionsCity(dataLocation, boxCityName) {
+//   const documentFragmentButton = document.documentFragment();
+//   const documentFragmentCity = document.documentFragment();
+//   const documentFragmentProvince = document.documentFragment();
+//   const documentFragmentCountry = document.documentFragment();
+
+//   const city = dataLocation.city;
+//   const province = dataLocation.province;
+//   const country = dataLocation.country;
+
+//   city.forEach((element) => {
+//     const nameCity = document.createElement("span");
+//     const button = document.createElement("button");
+//     button.type = "button";
+//     button.classList.add("btn-location-name");
+//     nameCity.classList.add("city-name");
+//     nameCity.textContent = element + ", ";
+//     documentFragmentButton.appendChild(button);
+//     documentFragmentCity.appendChild(nameCity);
+//   });
+
+//   province.forEach((element) => {
+//     const nameProvice = document.createElement("span");
+//     nameProvice.classList.add("province-name");
+//     nameProvice.textContent = element + ", ";
+//     documentFragmentProvince.appendChild(nameProvice);
+//   });
+
+//   country.forEach((element) => {
+//     const nameCountry = document.createElement("span");
+//     nameCountry.classList.add("country-name");
+//     nameCountry.textContent = element + ", ";
+//     documentFragmentCountry.appendChild(nameCountry);
+//   });
+
+//   documentFragmentButton.forEach((element) => {
+//     element.appendChild(documentFragmentCity);
+//     element.appendChild(documentFragmentProvince);
+//     element.appendChild(documentFragmentCountry);
+//   });
+//   boxCityName.appendChild(documentFragmentButton);
+// }
+
+function optionsCity(dataLocation, boxCityName) {
+  const fragment = document.createDocumentFragment();
+
+  const city = dataLocation.city;
+  const province = dataLocation.province;
+  const country = dataLocation.country;
+
+  city.forEach((element, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.classList.add("btn-location-name");
+
+    const nameCity = document.createElement("span");
+    nameCity.classList.add("city-name");
+    nameCity.textContent = element + ", ";
+
+    const nameProvince = document.createElement("span");
+    nameProvince.classList.add("province-name");
+    nameProvince.textContent = province[index] + ", ";
+
+    const nameCountry = document.createElement("span");
+    nameCountry.classList.add("country-name");
+    nameCountry.textContent = country[index];
+
+    // monta o botão
+    button.appendChild(nameCity);
+    button.appendChild(nameProvince);
+    button.appendChild(nameCountry);
+
+    fragment.appendChild(button);
+  });
+
+  boxCityName.appendChild(fragment);
+}
 export {
   switchHeat,
   gerarOrdem,
   atualizarOrdemCaixaContainerDailyForecast,
   heroContent,
-  dayAndDays,
-  preencherHourly,
+  fillSortedWeek,
+  fillHourly,
   preencherWeatherDetails,
   temperatureDayliForecast,
   scrollToCurrentHour,
+  optionsCity,
 };

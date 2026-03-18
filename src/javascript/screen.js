@@ -3,13 +3,17 @@ import {
   gerarOrdem,
   atualizarOrdemCaixaContainerDailyForecast,
   heroContent,
-  dayAndDays,
-  preencherHourly,
+  fillSortedWeek,
+  fillHourly,
   preencherWeatherDetails,
   temperatureDayliForecast,
   scrollToCurrentHour,
+  optionsCity,
 } from "../javascript/functions.js";
-import { formattedWeather } from "../javascript/services.js";
+import {
+  formattedWeather,
+  formattedCoordinates,
+} from "../javascript/services.js";
 
 // const containerTemperatureDay = document.getElementById(
 //   "container-temperature-day",
@@ -51,6 +55,7 @@ const $heatMetric = document.querySelectorAll(".metric");
 const $heatImperial = document.querySelectorAll(".imperial");
 const $checkmark = document.querySelectorAll(".icon-checkmark");
 
+const $btnRetry = document.getElementById("btn-retry");
 $btnState.addEventListener("click", () => {
   // console.log("disparando");
   // $heatMetric.forEach((element, index) => {
@@ -116,7 +121,6 @@ boxChoiceDays.addEventListener("click", function (event) {
   days[0].classList.remove("day-active");
 });
 
-const weather = await formattedWeather("Porto Alegre");
 // console.log(JSON.stringify(weather));
 // const date = [
 //   ["2026", "3", "25"],
@@ -129,66 +133,159 @@ const weather = await formattedWeather("Porto Alegre");
 // ];
 // console.log(atualizarOrdemMonthHeroContent(date));
 
-const diasSemana = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+function atualizarPaginaAoCarregarAPI(weather) {
+  const diasSemana = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-const dias = gerarOrdem(
-  weather.dailyWeatherVariables.date,
-  diasSemana,
-  (data) => data.getDay(),
-);
+  const dias = gerarOrdem(
+    weather.dailyWeatherVariables.date,
+    diasSemana,
+    (data) => data.getDay(),
+  );
 
-const meses = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+  const meses = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-const mesesResultado = gerarOrdem(
-  weather.dailyWeatherVariables.date,
-  meses,
-  (data) => data.getMonth(),
-);
+  const mesesResultado = gerarOrdem(
+    weather.dailyWeatherVariables.date,
+    meses,
+    (data) => data.getMonth(),
+  );
 
-const dayDayliForecast = atualizarOrdemCaixaContainerDailyForecast(dias);
-const hora = new Date().getHours();
+  const dayDayliForecast = atualizarOrdemCaixaContainerDailyForecast(dias);
+  const hora = new Date().getHours();
 
-heroContent(weather, dias, mesesResultado, hora - 1);
-dayAndDays(dias, dayDayliForecast);
-preencherHourly(
-  weather.hourlyWeatherVariable.temperature,
-  weather.hourlyWeatherVariable.weatherCode,
-);
-preencherWeatherDetails(
-  weather.dailyWeatherVariables.dayMeanDetails.apparentTemperatureMean,
-  weather.dailyWeatherVariables.dayMeanDetails.relativeHumidity,
-  weather.dailyWeatherVariables.dayMeanDetails.windSpeed,
-  weather.dailyWeatherVariables.dayMeanDetails.precipitationMean,
-  "km/h",
-  "mm",
-  0,
-);
-temperatureDayliForecast(
-  weather.dailyWeatherVariables.weatherCode,
-  weather.dailyWeatherVariables.dailyForecast.temperatureMax,
-  weather.dailyWeatherVariables.dailyForecast.temperatureMin,
-);
-// console.log(JSON.stringify(weather));
+  heroContent(weather, dias, mesesResultado, hora - 1);
+  fillSortedWeek(dias, dayDayliForecast);
+  fillHourly(
+    weather.hourlyWeatherVariable.temperature,
+    weather.hourlyWeatherVariable.weatherCode,
+  );
+  preencherWeatherDetails(
+    weather.dailyWeatherVariables.dayMeanDetails.apparentTemperatureMean,
+    weather.dailyWeatherVariables.dayMeanDetails.relativeHumidity,
+    weather.dailyWeatherVariables.dayMeanDetails.windSpeed,
+    weather.dailyWeatherVariables.dayMeanDetails.precipitationMean,
+    "km/h",
+    "mm",
+    0,
+  );
+  temperatureDayliForecast(
+    weather.dailyWeatherVariables.weatherCode,
+    weather.dailyWeatherVariables.dailyForecast.temperatureMax,
+    weather.dailyWeatherVariables.dailyForecast.temperatureMin,
+  );
+  // console.log(JSON.stringify(weather));
+  scrollToCurrentHour;
+}
 
-setTimeout(scrollToCurrentHour, 100);
+// const diasSemana = [
+//   "Sunday",
+//   "Monday",
+//   "Tuesday",
+//   "Wednesday",
+//   "Thursday",
+//   "Friday",
+//   "Saturday",
+// ];
+
+// const dias = gerarOrdem(
+//   weather.dailyWeatherVariables.date,
+//   diasSemana,
+//   (data) => data.getDay(),
+// );
+
+// const meses = [
+//   "Jan",
+//   "Feb",
+//   "Mar",
+//   "Apr",
+//   "May",
+//   "Jun",
+//   "Jul",
+//   "Aug",
+//   "Sep",
+//   "Oct",
+//   "Nov",
+//   "Dec",
+// ];
+
+// const mesesResultado = gerarOrdem(
+//   weather.dailyWeatherVariables.date,
+//   meses,
+//   (data) => data.getMonth(),
+// );
+
+// const dayDayliForecast = atualizarOrdemCaixaContainerDailyForecast(dias);
+// const hora = new Date().getHours();
+
+// heroContent(weather, dias, mesesResultado, hora - 1);
+// dayAndDays(dias, dayDayliForecast);
+// preencherHourly(
+//   weather.hourlyWeatherVariable.temperature,
+//   weather.hourlyWeatherVariable.weatherCode,
+// );
+// preencherWeatherDetails(
+//   weather.dailyWeatherVariables.dayMeanDetails.apparentTemperatureMean,
+//   weather.dailyWeatherVariables.dayMeanDetails.relativeHumidity,
+//   weather.dailyWeatherVariables.dayMeanDetails.windSpeed,
+//   weather.dailyWeatherVariables.dayMeanDetails.precipitationMean,
+//   "km/h",
+//   "mm",
+//   0,
+// );
+// temperatureDayliForecast(
+//   weather.dailyWeatherVariables.weatherCode,
+//   weather.dailyWeatherVariables.dailyForecast.temperatureMax,
+//   weather.dailyWeatherVariables.dailyForecast.temperatureMin,
+// );
+// // console.log(JSON.stringify(weather));
+// scrollToCurrentHour;
+
+let stringAPI = "Porto Alegre";
+
+let weatherAPI = await formattedWeather(stringAPI);
+
+let dataCampoPesquisa;
+
+atualizarPaginaAoCarregarAPI(weatherAPI);
+
+$btnRetry.addEventListener("click", async () => {
+  if (dataCampoPesquisa) {
+    stringAPI = dataCampoPesquisa;
+  }
+
+  weatherAPI = await formattedWeather(stringAPI);
+
+  atualizarPaginaAoCarregarAPI(weatherAPI);
+});
+
+const fieldSearch = document.getElementById("input-search");
+const boxCityName = document.getElementById("box-city-name");
+fieldSearch.addEventListener("input", async () => {
+  const inputValue = fieldSearch.value;
+  if (inputValue === "") {
+    return;
+  }
+  const data = await formattedCoordinates(inputValue);
+  optionsCity(data, boxCityName);
+});
