@@ -273,7 +273,7 @@ async function formattedCoordinates(city) {
 // const weather = await formattedWeather(
 //   "Porto Alegre, Rio Grande do Sul, Brazil",
 // );
-const cord = await formattedCoordinates("Porto Alegre");
+const cord = await formattedWeather("Porto, Portugal");
 console.log(JSON.stringify(cord));
 
 export { formattedWeather, formattedCoordinates };

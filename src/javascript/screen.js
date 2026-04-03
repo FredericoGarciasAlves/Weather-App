@@ -292,11 +292,8 @@ fieldSearch.addEventListener("input", async () => {
 
 boxCityName.addEventListener("click", async (e) => {
   const buttons = e.target.closest(".btn-location-name");
-  // const city = e.target.closest(".city-name");
-  // const province = e.target.closest(".province-name");
-  // const country = e.target.closest(".country-name");
-  // console.log(buttons || city || province || country);
   if (buttons) {
+    boxCityName.classList.remove("box-city-name-active");
     const data = await formattedWeather(buttons.textContent);
     atualizarPaginaAoCarregarAPI(data);
   }

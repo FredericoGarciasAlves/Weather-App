@@ -181,6 +181,10 @@ body {
   font-size: 1.6rem;
 }
 
+.province-desactived {
+  display: none;
+}
+
 .btn-location-name:hover,
 .btn-location-name:focus {
   background-color: var(--neutral-700);

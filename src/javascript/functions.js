@@ -82,8 +82,15 @@ function heroContent(weather, dayString, monthString, indiceHora) {
   const $temperatureNow = document.getElementById("temperature-now");
 
   $city.textContent = weather.dailyWeatherVariables.location.city + ", ";
-  $province.textContent =
-    weather.dailyWeatherVariables.location.province + ", ";
+
+  if (weather.dailyWeatherVariables.location.province === "") {
+    $province.classList.add("province-desactived");
+  } else {
+    $province.classList.remove("province-desactived");
+    $province.textContent =
+      weather.dailyWeatherVariables.location.province + ", ";
+  }
+
   $country.textContent = weather.dailyWeatherVariables.location.country;
   $day.textContent = dayString[0] + ", ";
   $month.textContent = monthString[0] + " ";
