@@ -235,7 +235,7 @@ const dataCompleta = {
       ["2026", "3", "23"],
       ["2026", "3", "24"],
     ],
-    location: {
+    locadtion: {
       city: ["Singapura", "Singapura"],
       state: ["West Java", "South Sumatra"],
       country: ["Indonesia", "Indonesia"],

@@ -174,7 +174,7 @@ function atualizarPaginaAoCarregarAPI(weather) {
   const dayDayliForecast = atualizarOrdemCaixaContainerDailyForecast(dias);
   const hora = new Date().getHours();
 
-  heroContent(weather, dias, mesesResultado, hora - 1);
+  heroContent(weather, dias, mesesResultado, hora === 0 ? hora : hora - 1);
   fillSortedWeek(dias, dayDayliForecast);
   fillHourly(
     weather.hourlyWeatherVariable.temperature,
@@ -280,12 +280,24 @@ $btnRetry.addEventListener("click", async () => {
 });
 
 const fieldSearch = document.getElementById("input-search");
-const boxCityName = document.getElementById("box-city-name");
+const boxCityName = document.querySelector(".box-city-name");
 fieldSearch.addEventListener("input", async () => {
   const inputValue = fieldSearch.value;
   if (inputValue === "") {
     return;
   }
   const data = await formattedCoordinates(inputValue);
-  optionsCity(data, boxCityName);
+  optionsCity(data, boxCityName, fieldSearch);
+});
+
+boxCityName.addEventListener("click", async (e) => {
+  const buttons = e.target.closest(".btn-location-name");
+  // const city = e.target.closest(".city-name");
+  // const province = e.target.closest(".province-name");
+  // const country = e.target.closest(".country-name");
+  // console.log(buttons || city || province || country);
+  if (buttons) {
+    const data = await formattedWeather(buttons.textContent);
+    atualizarPaginaAoCarregarAPI(data);
+  }
 });

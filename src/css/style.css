@@ -155,8 +155,8 @@ body {
   position: relative;
 }
 
-#box-city-name {
-  display: flex;
+.box-city-name {
+  display: none;
   flex-direction: column;
   row-gap: 0.4rem;
   margin-top: 1rem;
@@ -165,6 +165,9 @@ body {
   border: 1px solid var(--neutral-700);
   width: 52.6rem;
   border-radius: 1rem;
+}
+.box-city-name-active {
+  display: flex;
 }
 
 .btn-location-name {

@@ -1,4 +1,4 @@
-import { searchWeather, searchCoordinates } from "./API.js";
+import { searchWeather, searchLocation, searchCitys } from "./API.js";
 
 async function transformWeather(weather, coordinates) {
   const formattedWeather = {
@@ -19,9 +19,9 @@ async function transformWeather(weather, coordinates) {
       ),
       date: formattedDate(weather.daily.time),
       location: {
-        city: processarLocalSeparado(coordinates.results).cidades[0],
-        province: processarLocalSeparado(coordinates.results).estados[0],
-        country: processarLocalSeparado(coordinates.results).paises[0],
+        city: coordinates.city,
+        province: coordinates.state,
+        country: coordinates.country,
       },
       dayMeanDetails: {
         apparentTemperatureMean: formattedTemperatureAndWind(
@@ -212,7 +212,7 @@ const errorSectionDesactived = document.querySelector(".error-section");
 
 async function formattedWeather(city) {
   try {
-    const coordinates = await searchCoordinates(city);
+    const coordinates = await searchLocation(city);
     const weather = await searchWeather(coordinates);
 
     const data = await transformWeather(weather, coordinates);
@@ -235,21 +235,13 @@ async function formattedWeather(city) {
 
 async function formattedCoordinates(city) {
   try {
-    const coordinates = await searchCoordinates(city);
-
+    const coordinates = await searchCitys(city);
     const data = await transformCoordinates(coordinates);
-
-    // ✅ SUCESSO → ativa tela normal
-    main.classList.remove("main-desactived");
-    errorSectionDesactived.classList.add("error-section-desactived");
 
     return data;
   } catch (error) {
-    // ❌ ERRO → ativa tela de erro
-    main.classList.add("main-desactived");
-    errorSectionDesactived.classList.remove("error-section-desactived");
-
-    throw error;
+    // 🔥 NÃO ativa tela de erro aqui
+    return []; // retorna vazio em vez de quebrar a UI
   }
 }
 // function formatarLocalArray(e) {
@@ -278,8 +270,10 @@ async function formattedCoordinates(city) {
 //   const formatado = results.map(formatarLocalArray);
 //   return removerDuplicadosArray(formatado);
 // }
-const weather = await formattedCoordinates("Berlin");
-
-console.log(weather);
+// const weather = await formattedWeather(
+//   "Porto Alegre, Rio Grande do Sul, Brazil",
+// );
+const cord = await formattedCoordinates("Porto Alegre");
+console.log(JSON.stringify(cord));
 
 export { formattedWeather, formattedCoordinates };

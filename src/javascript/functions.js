@@ -236,40 +236,72 @@ function scrollToCurrentHour() {
 //   boxCityName.appendChild(documentFragmentButton);
 // }
 
-function optionsCity(dataLocation, boxCityName) {
-  const fragment = document.createDocumentFragment();
-
+function optionsCity(dataLocation, boxCityName, input) {
+  if (!dataLocation || !dataLocation.city || input.value === "") {
+    boxCityName.innerHTML = "";
+    boxCityName.classList.remove("box-city-name-active");
+    console.log("disparando");
+    return;
+  } else {
+    boxCityName.classList.add("box-city-name-active");
+  }
   const city = dataLocation.city;
   const province = dataLocation.province;
   const country = dataLocation.country;
 
+  const existingButtons = boxCityName.children;
+  // console.log(existingButtons);
   city.forEach((element, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.classList.add("btn-location-name");
+    let button = existingButtons[index];
+    // console.log(button);
+    // 👉 Se NÃO existir, cria
+    if (!button) {
+      button = document.createElement("button");
+      button.type = "button";
+      button.classList.add("btn-location-name");
 
-    const nameCity = document.createElement("span");
-    nameCity.classList.add("city-name");
-    nameCity.textContent = element + ", ";
+      // const nameCity = document.createElement("span");
+      // nameCity.classList.add("city-name");
 
-    const nameProvince = document.createElement("span");
-    nameProvince.classList.add("province-name");
-    nameProvince.textContent = province[index] + ", ";
+      // const nameProvince = document.createElement("span");
+      // nameProvince.classList.add("province-name");
 
-    const nameCountry = document.createElement("span");
-    nameCountry.classList.add("country-name");
-    nameCountry.textContent = country[index];
+      // const nameCountry = document.createElement("span");
+      // nameCountry.classList.add("country-name");
 
-    // monta o botão
-    button.appendChild(nameCity);
-    button.appendChild(nameProvince);
-    button.appendChild(nameCountry);
+      // button.appendChild(nameCity);
+      // button.appendChild(nameProvince);
+      // button.appendChild(nameCountry);
 
-    fragment.appendChild(button);
+      boxCityName.appendChild(button);
+    }
+
+    if (province[index] === "") {
+      province[index] = "";
+      element = element + ", ";
+    } else {
+      province[index] = province[index] + ", ";
+      element = element + ", ";
+    }
+    if (country[index] === "") {
+      country[index] = "";
+      province[index] = province[index];
+    }
+    if ((province[index] === "" + country[index]) === "") {
+      element = element;
+    }
+    // 👉 Atualiza conteúdo
+    button.textContent = element + province[index] + country[index];
+    // button.querySelector(".province-name").textContent = province[index] + ", ";
+    // button.querySelector(".country-name").textContent = country[index];
   });
 
-  boxCityName.appendChild(fragment);
+  // 👉 Remove botões extras (caso nova busca tenha menos resultados)
+  while (boxCityName.children.length > city.length) {
+    boxCityName.removeChild(boxCityName.lastChild);
+  }
 }
+
 export {
   switchHeat,
   gerarOrdem,
