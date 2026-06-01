@@ -43,6 +43,10 @@ body {
   display: none;
 }
 
+.hidden-icon-checkmark {
+  display: none;
+}
+
 .units-dropdown {
   opacity: 1;
   pointer-events: none;
@@ -55,10 +59,11 @@ body {
   border-radius: 0.7rem;
 }
 
-.units-dropdown.active {
+.units-dropdown.active-menu-units {
   opacity: 1;
   pointer-events: auto;
   display: block;
+  z-index: 9999999999999999;
 }
 
 #state {
@@ -104,12 +109,12 @@ body {
   border-radius: 0.7rem;
 }
 
-.box-thermal-level.active-metric {
+.active-heat {
   background-color: var(--neutral-600);
 }
-.box-thermal-level.active-imperial {
+/* .box-thermal-level.active-imperial {
   background-color: var(--neutral-600);
-}
+} */
 
 .temperature-level {
   font-size: 1.6rem;
@@ -170,6 +175,10 @@ body {
   display: flex;
 }
 
+.box-city-name-row {
+  flex-direction: row;
+}
+
 .btn-location-name {
   width: 51rem;
   height: 4rem;
@@ -179,6 +188,16 @@ body {
   text-align: left;
   padding: 1rem 0.8rem;
   font-size: 1.6rem;
+}
+
+.icon-loading-search {
+  width: 1.6rem;
+  height: 1.9rem;
+}
+
+.paragrath-loading-search {
+  font-size: 1.6rem;
+  margin-left: 1rem;
 }
 
 .province-desactived {
@@ -229,7 +248,7 @@ body {
   column-gap: 3.2rem;
 }
 
-#weather-info {
+.hero-weather-info {
   width: 80rem;
   height: 28.5rem;
   background-image: url(../../assets/images/bg-today-large.svg);
@@ -239,8 +258,61 @@ body {
   padding: 8rem 2.4rem;
 }
 
-.location-info {
+.weather-info-loading {
+  font-size: 1.8rem;
 }
+
+.hero-weather-info-loading {
+  display: none;
+}
+
+.box-weather-info-load {
+  display: none;
+}
+
+.box-weather-info-loading {
+  width: 80rem;
+  height: 28.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../../assets/images/bg-loading.png);
+  border-radius: 1rem;
+}
+
+.three-points {
+  font-size: 10rem;
+}
+
+.arc {
+  position: relative;
+  height: 1.6rem;
+  position: relative;
+  bottom: 30%;
+  display: flex;
+  column-gap: 1rem;
+}
+
+/* .arc span {
+  position: absolute;
+  left: 45%;
+  top: 00%;
+  transform-origin: 0 190%; define o raio do arco */
+
+.arc span:nth-child(2) {
+  position: relative;
+  top: -5px;
+}
+
+/* .background-weather-info-loaded {
+  background-image: url(../../assets/images/bg-today-large.svg);
+} */
+.background-weather-info-loading {
+}
+/* 
+.location-info() {
+} */
 
 .location-info-span-large {
   font-size: 2.8rem;
@@ -290,6 +362,19 @@ body {
   font-size: 2.8rem;
 }
 
+.value-card-weather-hidden-loading {
+  display: none;
+}
+
+.value-card-weather-hyphen {
+  font-size: 2rem;
+  display: none;
+}
+
+.value-card-weather-hyphen-loading {
+  display: block;
+}
+
 #daily-forecast {
   font-size: 2rem;
   margin-top: 4.8rem;
@@ -328,6 +413,12 @@ body {
   justify-content: space-between;
 }
 
+.day-loading,
+.icon-min-max-temperature-loading,
+.box-max-min-temperature-loading {
+  display: none;
+}
+
 .max-temperature {
   font-size: 1.6rem;
 }
@@ -359,7 +450,6 @@ body {
 }
 
 #box-days {
-  width: 12rem;
   height: 3.8rem;
   background-color: var(--neutral-600);
   padding: 0rem 1.6rem;
@@ -368,6 +458,8 @@ body {
   align-items: center;
   border-radius: 1rem;
   border: none;
+  display: flex;
+  column-gap: 1.2rem;
 }
 
 #box-days:focus {
@@ -386,7 +478,7 @@ body {
     5px 5px 10px var(--neutral-800),
     -5px 0px 10px var(--neutral-800);
 }
-.desactived {
+.box-choice-days-desactived {
   display: none;
 }
 
@@ -398,6 +490,7 @@ body {
   align-items: center;
   justify-content: left;
   padding-left: 1.6rem;
+
   padding-right: 1.6rem;
   border-radius: 1rem;
   border: none;
@@ -407,6 +500,7 @@ body {
 .day-active {
   background-color: var(--neutral-600);
   margin-left: 0.8rem;
+  padding-left: 0.8rem;
   margin-right: 0.8rem;
 }
 
@@ -420,6 +514,9 @@ body {
 #selected-day {
   font-weight: 500;
   font-size: 1.6rem;
+}
+#selected-day.selected-day-loading {
+  display: none;
 }
 
 #container-temperature-day {
@@ -450,12 +547,15 @@ body {
   background: transparent;
 }
 
-.hourly {
+.container-hourly {
+  width: 34.5rem;
+  min-height: 4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-left: 1.2rem;
   padding-right: 1.6rem;
+
   background-color: var(--neutral-600);
   border-radius: 1rem;
 }
@@ -472,10 +572,17 @@ body {
 .hourly {
   font-weight: 400;
   font-size: 1.6rem;
+  display: flex;
+  align-items: center;
 }
 
 .temperature {
   font-size: 1.5rem;
+}
+
+.box-hourly-temperature-loading,
+.temperature-loading {
+  display: none;
 }
 
 /* Section error */
@@ -523,4 +630,19 @@ body {
   justify-content: center;
   column-gap: 1rem;
   font-size: 1.6rem;
+}
+
+.span-laoding-search {
+  margin-top: 1.4rem;
+  display: none;
+  align-items: center;
+  width: 52.5rem;
+  height: 5.5rem;
+  background-color: var(--neutral-700);
+  border-radius: 1rem;
+  padding-left: 1.6rem;
+}
+
+.active-span-loading-search {
+  display: flex;
 }

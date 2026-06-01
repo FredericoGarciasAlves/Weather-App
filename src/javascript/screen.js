@@ -7,13 +7,38 @@ import {
   fillHourly,
   preencherWeatherDetails,
   temperatureDayliForecast,
-  scrollToCurrentHour,
   optionsCity,
+  switchStateImperial,
+  switchStateMetric,
+  scrollToCurrentHour,
+  loadingWeatherAPI,
+  cloasingLoadingWeatherAPI,
+  loadingFieldSearch,
+  cloasingLoadingFieldSearch,
+  trueLoadingFieldSearch,
 } from "../javascript/functions.js";
 import {
   formattedWeather,
   formattedCoordinates,
 } from "../javascript/services.js";
+
+const currentHour = new Date().getHours();
+
+const container = document.getElementById("scroll-bar");
+const target = document.querySelector(
+  `.container-hourly[data-hour="${currentHour}"]`,
+);
+
+if (target && container) {
+  const offsetTop = target.offsetTop;
+
+  container.scrollTo({
+    top: offsetTop - container.clientHeight / 2,
+    behavior: "smooth",
+  });
+}
+
+let weatherStorage;
 
 // const containerTemperatureDay = document.getElementById(
 //   "container-temperature-day",
@@ -43,82 +68,105 @@ import {
 // }
 // console.log(buscarClima());
 
-const btn = document.getElementById("units");
-const menu = document.getElementById("unitsMenu");
+const btnUnits = document.getElementById("units");
+const menuUnits = document.getElementById("unitsMenu");
 
-btn.addEventListener("click", () => {
-  menu.classList.toggle("active");
+btnUnits.addEventListener("click", () => {
+  menuUnits.classList.toggle("active-menu-units");
 });
 
 const $btnState = document.getElementById("state");
 const $heatMetric = document.querySelectorAll(".metric");
 const $heatImperial = document.querySelectorAll(".imperial");
-const $checkmark = document.querySelectorAll(".icon-checkmark");
-
+const $checkmarkMetric = document.querySelectorAll(".icon-checkmark-metric");
+const $checkmarkImperial = document.querySelectorAll(
+  ".icon-checkmark-imperial",
+);
+console.log(
+  $btnState,
+  $heatMetric,
+  $heatImperial,
+  $checkmarkMetric,
+  $checkmarkImperial,
+);
 const $btnRetry = document.getElementById("btn-retry");
 $btnState.addEventListener("click", () => {
-  // console.log("disparando");
-  // $heatMetric.forEach((element, index) => {
-  //   // console.log(element.classList.contains("active-metric"));
-  //   if (element.classList.contains("active-metric")) {
-  //     element.classList.remove("active-metric");
-  //     $heatImperial[index].classList.add("active-imperial");
+  switchHeat(
+    $btnState,
+    $heatImperial,
+    $heatMetric,
+    $checkmarkImperial,
+    $checkmarkMetric,
+  );
+  const weatherLocalStorage = localStorage.getItem("weather");
 
-  //     // $checkmark[index].hidden = false;
-  //   } else {
-  //     element.classList.add("active-metric");
-  //     $heatImperial[index].classList.remove("active-imperial");
-  //     // $checkmark[index] = true;
-  //   }
-
-  //   //   switch (element.classList.contains("active-two")) {
-  //   //     case true:
-  //   //       element.classList.toggle("active-two");
-  //   //       break;
-  //   //     case false:
-  //   //       $heatMetric[index].classList.toggle("active-one");
-  //   //       break;
-  //   //   }
-  //   // });
-  // });
-  // // console.log($heatMetric[0].classList.contains("active-metric"));
-  // if ($heatMetric[0].classList.contains("active-metric")) {
-  //   for (let i = 0; i < 6; i++) {
-  //     $checkmark[i].hidden = true;
-  //   }
-  //   for (let i = 0; i < 5; i = i + 2) {
-  //     $checkmark[i].hidden = false;
-  //     console.log("disparando");
-  //   }
-  // } else {
-  //   for (let i = 0; i < 6; i++) {
-  //     $checkmark[i].hidden = false;
-  //   }
-  //   for (let i = 0; i < 5; i = i + 2) {
-  //     $checkmark[i].hidden = true;
-  //   }
-  //   console.log("disparando dobrado");
-  // }
-
-  switchHeat($heatMetric, $heatImperial, $checkmark, $btnState);
+  if ($btnState.textContent === "Switch to Metric") {
+    const weatherImperial = switchStateImperial(weatherLocalStorage);
+    atualizarPaginaAoCarregarAPI(weatherImperial);
+  } else if ($btnState.textContent === "Switch to Imperial") {
+    const weatherMetric = switchStateMetric(weatherLocalStorage);
+    atualizarPaginaAoCarregarAPI(weatherMetric);
+  }
 });
 
 $heatImperial.forEach((element) => {
   element.addEventListener("click", () => {
-    switchHeat($heatMetric, $heatImperial, $checkmark, $btnState);
+    switchHeat(
+      $btnState,
+      $heatImperial,
+      $heatMetric,
+      $checkmarkImperial,
+      $checkmarkMetric,
+    );
+    const weatherLocalStorage = localStorage.getItem("weather");
+    const weatherImperial = switchStateImperial(weatherLocalStorage);
+    atualizarPaginaAoCarregarAPI(weatherImperial);
   });
 });
 $heatMetric.forEach((element) => {
   element.addEventListener("click", () => {
-    switchHeat($heatMetric, $heatImperial, $checkmark, $btnState);
+    switchHeat(
+      $btnState,
+      $heatImperial,
+      $heatMetric,
+      $checkmarkImperial,
+      $checkmarkMetric,
+    );
+    const weatherLocalStorage = localStorage.getItem("weather");
+    const weatherMetric = switchStateMetric(weatherLocalStorage);
+    atualizarPaginaAoCarregarAPI(weatherMetric);
   });
 });
 
 const boxChoiceDays = document.querySelector(".box-choice-days");
-boxChoiceDays.addEventListener("click", function (event) {
-  const days = event.target.matches("days");
+const days = document.querySelectorAll(".days");
+const selectedDay = document.getElementById("selected-day");
 
-  days[0].classList.remove("day-active");
+boxChoiceDays.addEventListener("click", function (event) {
+  const weatherLocalStorage = localStorage.getItem("weather");
+  const weatherJSON = JSON.parse(weatherLocalStorage);
+  const day = event.target.closest(".days");
+  let dayIndexClicked = undefined;
+  days.forEach((element, index) => {
+    element.classList.remove("day-active");
+    if (day === element) {
+      dayIndexClicked = index;
+    }
+  });
+
+  console.log(weatherJSON);
+  day.classList.add("day-active");
+  fillHourly(
+    weatherJSON.hourlyWeatherVariable.temperature,
+    weatherJSON.hourlyWeatherVariable.weatherCode,
+    dayIndexClicked,
+  );
+  selectedDay.textContent = day.textContent;
+});
+
+const boxDays = document.getElementById("box-days");
+boxDays.addEventListener("click", () => {
+  boxChoiceDays.classList.toggle("box-choice-days-desactived");
 });
 
 // console.log(JSON.stringify(weather));
@@ -265,6 +313,10 @@ let stringAPI = "Porto Alegre";
 
 let weatherAPI = await formattedWeather(stringAPI);
 
+// Fazer a refatoração criando uma função pra esse armazenamento da API
+weatherStorage = JSON.stringify(weatherAPI);
+localStorage.setItem("weather", weatherStorage);
+
 let dataCampoPesquisa;
 
 atualizarPaginaAoCarregarAPI(weatherAPI);
@@ -275,21 +327,44 @@ $btnRetry.addEventListener("click", async () => {
   }
 
   weatherAPI = await formattedWeather(stringAPI);
+  // Fazer a refatoração criando uma função pra esse armazenamento da API
+  weatherStorage = JSON.stringify(weatherAPI);
+  localStorage.setItem("weather", weatherStorage);
 
   atualizarPaginaAoCarregarAPI(weatherAPI);
 });
 
 const fieldSearch = document.getElementById("input-search");
 const boxCityName = document.querySelector(".box-city-name");
+
+// let verifyLoadingFieldSearch;
+let isLoadingFieldSearch = false;
+
+// function wait(ms) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, ms);
+//   });
+// }
+
 fieldSearch.addEventListener("input", async () => {
   const inputValue = fieldSearch.value;
+  const boxCityName = document.querySelector(".box-city-name");
+  boxCityName.classList.remove("box-city-name-active");
   if (inputValue === "") {
+    cloasingLoadingFieldSearch();
     return;
   }
-  const data = await formattedCoordinates(inputValue);
-  optionsCity(data, boxCityName, fieldSearch);
-});
 
+  loadingFieldSearch();
+  setTimeout(() => {
+    cloasingLoadingFieldSearch();
+    optionsCity(boxCityName, fieldSearch);
+  }, 2000);
+
+  // if (inputValue.length === 0) {
+
+  // }
+});
 boxCityName.addEventListener("click", async (e) => {
   const buttons = e.target.closest(".btn-location-name");
   if (buttons) {
@@ -298,3 +373,30 @@ boxCityName.addEventListener("click", async (e) => {
     atualizarPaginaAoCarregarAPI(data);
   }
 });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   scrollToCurrentHour();
+// });
+
+// const weatherJSONNNN = localStorage.getItem("weather");
+
+// switchStateFahrenheit(weatherJSONNNN);
+// const aaa = JSON.parse(weatherJSONNNN);
+
+// console.log(aaa);
+
+// const currentHour = new Date().getHours();
+
+// const container = document.getElementById("scroll-bar");
+// const target = document.querySelector(
+//   `.container-hourly[data-hour="${currentHour}"]`,
+// );
+
+// if (target && container) {
+//   const offsetTop = target.offsetTop;
+
+//   container.scrollTo({
+//     top: offsetTop - container.clientHeight / 2,
+//     behavior: "smooth",
+//   });
+// }

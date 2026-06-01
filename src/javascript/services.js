@@ -1,4 +1,22 @@
 import { searchWeather, searchLocation, searchCitys } from "./API.js";
+import {
+  switchHeat,
+  gerarOrdem,
+  atualizarOrdemCaixaContainerDailyForecast,
+  heroContent,
+  fillSortedWeek,
+  fillHourly,
+  preencherWeatherDetails,
+  temperatureDayliForecast,
+  optionsCity,
+  switchStateImperial,
+  switchStateMetric,
+  scrollToCurrentHour,
+  loadingWeatherAPI,
+  cloasingLoadingWeatherAPI,
+  cloasingLoadingFieldSearch,
+  trueLoadingFieldSearch,
+} from "../javascript/functions.js";
 
 async function transformWeather(weather, coordinates) {
   const formattedWeather = {
@@ -217,6 +235,8 @@ async function formattedWeather(city) {
 
     const data = await transformWeather(weather, coordinates);
 
+    loadingWeatherAPI();
+
     // Fazer verificação nessas manipulações de classes
 
     // ✅ SUCESSO → ativa tela normal
@@ -230,19 +250,31 @@ async function formattedWeather(city) {
     errorSectionDesactived.classList.remove("error-section-desactived");
 
     throw error;
+  } finally {
+    setTimeout(() => {
+      cloasingLoadingWeatherAPI();
+    }, 2000);
   }
 }
+// function delay(ms) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, ms);
+//   });
+// }
 
 async function formattedCoordinates(city) {
   try {
     const coordinates = await searchCitys(city);
+
     const data = await transformCoordinates(coordinates);
 
+    // espera 2 segundos
+
+    // executa SOMENTE depois dos 2 segundos
+    cloasingLoadingFieldSearch();
+
     return data;
-  } catch (error) {
-    // 🔥 NÃO ativa tela de erro aqui
-    return []; // retorna vazio em vez de quebrar a UI
-  }
+  } catch (error) {}
 }
 // function formatarLocalArray(e) {
 //   const city = e.name;
@@ -273,7 +305,7 @@ async function formattedCoordinates(city) {
 // const weather = await formattedWeather(
 //   "Porto Alegre, Rio Grande do Sul, Brazil",
 // );
-const cord = await formattedWeather("Porto, Portugal");
-console.log(JSON.stringify(cord));
+// const cord = await formattedWeather("Porto, Portugal");
+// console.log(JSON.stringify(cord));
 
 export { formattedWeather, formattedCoordinates };
