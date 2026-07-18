@@ -82,13 +82,13 @@ const $checkmarkMetric = document.querySelectorAll(".icon-checkmark-metric");
 const $checkmarkImperial = document.querySelectorAll(
   ".icon-checkmark-imperial",
 );
-console.log(
-  $btnState,
-  $heatMetric,
-  $heatImperial,
-  $checkmarkMetric,
-  $checkmarkImperial,
-);
+// console.log(
+//   $btnState,
+//   $heatMetric,
+//   $heatImperial,
+//   $checkmarkMetric,
+//   $checkmarkImperial,
+// );
 const $btnRetry = document.getElementById("btn-retry");
 $btnState.addEventListener("click", () => {
   switchHeat(
@@ -154,7 +154,7 @@ boxChoiceDays.addEventListener("click", function (event) {
     }
   });
 
-  console.log(weatherJSON);
+  // console.log(weatherJSON);
   day.classList.add("day-active");
   fillHourly(
     weatherJSON.hourlyWeatherVariable.temperature,
@@ -347,6 +347,7 @@ let isLoadingFieldSearch = false;
 // }
 
 fieldSearch.addEventListener("input", async () => {
+  console.log("disparando evento de input");
   const inputValue = fieldSearch.value;
   const boxCityName = document.querySelector(".box-city-name");
   boxCityName.classList.remove("box-city-name-active");
@@ -400,3 +401,13 @@ boxCityName.addEventListener("click", async (e) => {
 //     behavior: "smooth",
 //   });
 // }
+
+const $btnSearch = document.getElementById("btn-search");
+$btnSearch.addEventListener("click", async () => {
+  const $btnLocationName = document.querySelectorAll(".btn-location-name")[0];
+  console.log($btnLocationName.textContent);
+  const dataAPI = await formattedWeather($btnLocationName.textContent);
+  weatherStorage = JSON.stringify(dataAPI);
+  localStorage.setItem("weather", weatherStorage);
+  atualizarPaginaAoCarregarAPI(dataAPI);
+});

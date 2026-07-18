@@ -60,7 +60,7 @@ async function searchLocation(query) {
   };
 }
 
-const cordinates = await searchLocation("Singapura, West Java, Indonesia");
+const cordinates = await searchCitys("Singapura");
 console.log(JSON.stringify(cordinates));
 
 export { searchWeather, searchLocation, searchCitys };
